@@ -1,8 +1,6 @@
 ﻿using Neo4j.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NoSQL_Project.DataAccess
@@ -16,6 +14,9 @@ namespace NoSQL_Project.DataAccess
             _driver = GraphDatabase.Driver(uri, AuthTokens.Basic(username, password));
             Console.WriteLine("Kết nối tới Neo4j thành công!");
         }
+
+        // Thêm thuộc tính Driver để có thể truy cập bên ngoài
+        public IDriver Driver => _driver; // Thêm thuộc tính Driver
 
         public async Task<List<Dictionary<string, object>>> RunCypherQuery(string query)
         {

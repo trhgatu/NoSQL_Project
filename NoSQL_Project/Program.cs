@@ -26,12 +26,8 @@ namespace NoSQL_Project
             {
                 try
                 {
-                    // Lấy dữ liệu từ Neo4j
-                    var data = neo4jConnection.RunCypherQuery("MATCH (n) RETURN n LIMIT 10").Result;
-
-                    // Mở form chính và truyền dữ liệu vào form
-                    var form = new Form1();
-                    form.LoadDataToGrid(data);
+                    // Mở form chính và truyền driver vào form
+                    var form = new Form1(neo4jConnection.Driver);
                     Application.Run(form);
                 }
                 catch (Exception ex)
@@ -40,5 +36,7 @@ namespace NoSQL_Project
                 }
             }
         }
+
+
     }
 }
