@@ -3,15 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+using System.Linq;
+using NoSQL_Project.Models;
+
 
 namespace NoSQL_Project
 {
     public partial class Form1 : Form
     {
         private IDriver _driver;
-
+        private string _id;
         public Form1(IDriver driver)
         {
             InitializeComponent();
@@ -24,7 +30,6 @@ namespace NoSQL_Project
             dtp_NgayMat.Value = DateTimePicker.MinimumDateTime;
             LoadFilterCriteria();
         }
-
         private void SetupPanel()
         {
             header_Panel.BackColor = Color.FromArgb(29, 59, 113);
@@ -36,7 +41,6 @@ namespace NoSQL_Project
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.LightGray;
             dataGridView1.EnableHeadersVisualStyles = false;
-
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 102, 179);
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.RowTemplate.Height = 150;
@@ -50,7 +54,7 @@ namespace NoSQL_Project
                p.deathDate AS DeathDate, p.gender AS Gender, 
                p.image AS Image, p.occupation AS Occupation, 
                p.hometown AS Hometown, p.address AS Address 
-        ORDER BY p.id"; 
+        ORDER BY p.id";
 
             List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
 
@@ -73,8 +77,8 @@ namespace NoSQL_Project
                             { "Hometown", record["Hometown"].As<string>() },
                             { "Address", record["Address"].As<string>() }
                         };
-                                data.Add(dict);
-                            }
+                        data.Add(dict);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -90,14 +94,14 @@ namespace NoSQL_Project
             DataTable table = new DataTable();
             table.Columns.Add("Id", typeof(string));
 
-    
-            table.Columns.Add("Image", typeof(Image));
+
+            table.Columns.Add("Image", typeof(System.Drawing.Image));
 
             if (data.Count > 0)
             {
                 foreach (var key in data[0].Keys)
                 {
-                    if (key != "Id" && key != "Image") 
+                    if (key != "Id" && key != "Image")
                     {
                         table.Columns.Add(key, typeof(string));
                     }
@@ -108,12 +112,12 @@ namespace NoSQL_Project
                     DataRow row = table.NewRow();
                     row["Id"] = record["Id"]?.ToString();
 
-                    
+
                     string imagePath = record["Image"]?.ToString();
                     if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
                     {
-                        Image originalImage = Image.FromFile(imagePath);
-                        row["Image"] = ResizeImage(originalImage, 150, 150); 
+                        System.Drawing.Image originalImage = System.Drawing.Image.FromFile(imagePath);
+                        row["Image"] = ResizeImage(originalImage, 150, 150);
                     }
                     else
                     {
@@ -133,20 +137,20 @@ namespace NoSQL_Project
 
             dataGridView1.DataSource = table;
 
-            
-            dataGridView1.Columns["Image"].Width = 150; 
-            dataGridView1.Columns["Image"].DefaultCellStyle.NullValue = null;
-            dataGridView1.Columns["Image"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; 
-            dataGridView1.Columns["Image"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None; 
 
-            
-            dataGridView1.RowTemplate.Height = 150; 
+            dataGridView1.Columns["Image"].Width = 150;
+            dataGridView1.Columns["Image"].DefaultCellStyle.NullValue = null;
+            dataGridView1.Columns["Image"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns["Image"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+
+            dataGridView1.RowTemplate.Height = 150;
         }
 
 
-        private Image ResizeImage(Image image, int width, int height)
+        private System.Drawing.Image ResizeImage(System.Drawing.Image image, int width, int height)
         {
-            
+
             double ratioX = (double)width / image.Width;
             double ratioY = (double)height / image.Height;
             double ratio = Math.Min(ratioX, ratioY);
@@ -154,7 +158,7 @@ namespace NoSQL_Project
             int newWidth = (int)(image.Width * ratio);
             int newHeight = (int)(image.Height * ratio);
 
-            return new Bitmap(image, new Size(newWidth, newHeight)); 
+            return new Bitmap(image, new Size(newWidth, newHeight));
         }
         private void LoadFilterCriteria()
         {
@@ -222,7 +226,7 @@ namespace NoSQL_Project
                     { "Occupation", record["Occupation"]?.As<string>() ?? "N/A" },
                     { "Hometown", record["Hometown"]?.As<string>() ?? "N/A" },
                     { "Address", record["Address"]?.As<string>() ?? "N/A" },
-                    { "Image", record.ContainsKey("Image") ? record["Image"].As<string>() : null } 
+                    { "Image", record.ContainsKey("Image") ? record["Image"].As<string>() : null }
                 };
                         data.Add(dict);
                     }
@@ -248,7 +252,6 @@ namespace NoSQL_Project
         private string _imagePath;
         private async void btn_Them_Click(object sender, EventArgs e)
         {
-            
             string name = txt_Ten.Text;
             string birthDate = dtp_NgaySinh.Value.ToString("yyyy-MM-dd");
             string deathDate = dtp_NgayMat.Value.Date == DateTimePicker.MinimumDateTime.Date ? null : dtp_NgayMat.Value.ToString("yyyy-MM-dd");
@@ -257,13 +260,11 @@ namespace NoSQL_Project
             string hometown = txt_QueQuan.Text;
             string address = txt_DiaChi.Text;
 
-          
             if (string.IsNullOrEmpty(_imagePath))
             {
                 MessageBox.Show("Chưa chọn ảnh.");
-                return; 
+                return;
             }
-
 
             string image = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", System.IO.Path.GetFileName(_imagePath));
 
@@ -305,19 +306,18 @@ namespace NoSQL_Project
                         occupation,
                         hometown,
                         address,
-                        image 
+                        image
                     };
 
                     await session.RunAsync(query, parameters);
                     MessageBox.Show("Thêm cá nhân thành công!");
 
-                    
                     string selectedRelationship = cb_MoiQuanHe.SelectedItem?.ToString();
                     string relatedPersonName = cb_MoiQuanHeVoi.SelectedItem?.ToString();
 
                     if (!string.IsNullOrEmpty(selectedRelationship) && !string.IsNullOrEmpty(relatedPersonName))
                     {
-                       
+
                         var findPersonIdQuery = "MATCH (p:Person {name: $name}) RETURN p.id AS Id";
                         var relatedPersonResult = await session.RunAsync(findPersonIdQuery, new { name = relatedPersonName });
 
@@ -348,8 +348,54 @@ namespace NoSQL_Project
             }
         }
 
+        private async Task<DialogResult> SavePerson(string id, string hometown, string occupation, string address, string gender, string name, string deathDate, string birthDate)
+        {
+            try
+            {
+                await using (var session = _driver.AsyncSession())
+                {
+                    var query = @"
+                MATCH (p:Person {id: $id})
+                SET p.hometown = $hometown, 
+                    p.occupation = $occupation, 
+                    p.address = $address, 
+                    p.gender = $gender, 
+                    p.name = $name, 
+                    p.deathDate = $deathDate, 
+                    p.birthDate = $birthDate 
+                RETURN p";
 
+                    var parameters = new
+                    {
+                        id,
+                        hometown,
+                        occupation,
+                        address,
+                        gender,
+                        name,
+                        deathDate,
+                        birthDate
+                    };
 
+                    var result = await session.RunAsync(query, parameters);
+
+                    if (await result.PeekAsync() == null)
+                    {
+                        return DialogResult.None;
+                    }
+                    else
+                    {
+                        var singleResult = await result.SingleAsync();
+                        return DialogResult.OK;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Có lỗi xảy ra: {ex.Message}");
+                return DialogResult.Abort;
+            }
+        }
 
 
 
@@ -447,7 +493,7 @@ namespace NoSQL_Project
                     MessageBox.Show("Đã lưu ảnh thành công!");
 
                     // Hiển thị ảnh trong PictureBox
-                    box_Anh.Image = Image.FromFile(targetFilePath);
+                    box_Anh.Image = System.Drawing.Image.FromFile(targetFilePath);
                     box_Anh.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
                 catch (Exception ex)
@@ -541,6 +587,167 @@ namespace NoSQL_Project
             }
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
 
+        }
+
+        private void cb_FilterCriteria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
+        private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var rowIndex = e.RowIndex;
+            var rowData = dataGridView1.Rows[rowIndex];
+            _id = (string)rowData.Cells[0].Value;
+            DateTime birthDate, dieDate;
+            if (DateTime.TryParse(rowData.Cells[3].Value.ToString(), out birthDate))
+            {
+                dtp_NgaySinh.Value = birthDate;
+            }
+            if (string.IsNullOrEmpty(rowData.Cells[4].Value?.ToString()))
+            {
+                checkBox1.Checked = false;
+                checkBox1.Enabled = false;
+            }
+            else
+            {
+                if (rowData.Cells[4].Value != null && DateTime.TryParse(rowData.Cells[4].Value.ToString(), out dieDate))
+                {
+                    dtp_NgayMat.Value = dieDate;
+                }
+            }
+            string gender = rowData.Cells[5].Value?.ToString();
+            if (gender == "Nam")
+            {
+                radio_Nam.Checked = true;
+                radio_Nu.Checked = false;
+            }
+            else if (gender == "Nữ")
+            {
+                radio_Nu.Checked = true;
+                radio_Nam.Checked = false;
+            }
+            txt_Ten.Text = rowData.Cells[2].Value?.ToString() ?? string.Empty;
+            txt_NgheNghiep.Text = rowData.Cells[6].Value?.ToString() ?? string.Empty;
+            txt_QueQuan.Text = rowData.Cells[7].Value?.ToString() ?? string.Empty;
+            txt_DiaChi.Text = rowData.Cells[8].Value?.ToString() ?? string.Empty;
+        }
+
+        [Obsolete]
+        private async void btn_Luu_Click(object sender, EventArgs e)
+        {
+            // Lấy giá trị từ form
+            string name = txt_Ten.Text;
+            string birthDate = dtp_NgaySinh.Value.ToString("yyyy-MM-dd");
+            string deathDate = dtp_NgayMat.Value.Date == DateTimePicker.MinimumDateTime.Date ? null : dtp_NgayMat.Value.ToString("yyyy-MM-dd");
+            string gender = radio_Nam.Checked ? "Nam" : "Nữ";
+            string occupation = txt_NgheNghiep.Text;
+            string hometown = txt_QueQuan.Text;
+            string address = txt_DiaChi.Text;
+
+            // Kiểm tra giá trị ID
+            if (string.IsNullOrEmpty(_id))
+            {
+                MessageBox.Show("Không có ID hợp lệ để cập nhật.");
+                return;
+            }
+
+            // Giả sử _id là số, chúng ta ép kiểu từ chuỗi sang số (nếu cần)
+            if (!int.TryParse(_id, out int personId))
+            {
+                MessageBox.Show("ID không hợp lệ. Hãy kiểm tra lại.");
+                return;
+            }
+
+            MessageBox.Show($"ID hiện tại là: {personId}");
+
+            try
+            {
+                await using (var session = _driver.AsyncSession())
+                {
+                    // Kiểm tra sự tồn tại của nút có ID trước khi cập nhật
+                    var checkQuery = @"
+                        MATCH (p:Person {id: $id})
+                        RETURN p LIMIT 1";
+                    var checkParameters = new { id = personId };
+                    var checkResult = await session.RunAsync(checkQuery, checkParameters);
+                    var checkRecords = await checkResult.ToListAsync();
+
+                    if (checkRecords.Count == 0)
+                    {
+                        MessageBox.Show("Không tìm thấy người nào có ID này.");
+                        return;
+                    }
+
+                    // Cập nhật thông tin trong transaction nếu nút tồn tại
+                    await session.WriteTransactionAsync(async tx =>
+                    {
+                        var updateQuery = @"
+         MATCH (p:Person {id: $id})
+         SET p.hometown = $hometown, 
+             p.occupation = $occupation, 
+             p.address = $address, 
+             p.gender = $gender, 
+             p.name = $name, 
+             p.deathDate = $deathDate, 
+             p.birthDate = $birthDate
+         RETURN id(p) AS Id";
+
+                        var updateParameters = new
+                        {
+                            id = personId,  // Sử dụng personId là số
+                            hometown,
+                            occupation,
+                            address,
+                            gender,
+                            name,
+                            deathDate = string.IsNullOrEmpty(deathDate) ? null : deathDate,
+                            birthDate
+                        };
+
+                        var updateResult = await tx.RunAsync(updateQuery, updateParameters);
+                        var updateRecords = await updateResult.ToListAsync();
+
+                        if (updateRecords.Count > 0)
+                        {
+                            var updatedId = updateRecords[0]["Id"];
+                            MessageBox.Show($"Cập nhật thành công {updatedId}"+1);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không tìm thấy người nào để cập nhật.");
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Có lỗi xảy ra: {ex.Message}");
+            }
+
+            // Tải lại dữ liệu sau khi cập nhật
+            await LoadDataAsync();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                dtp_NgayMat.Enabled = true;
+            }
+            else if (checkBox1.Checked == false)
+            {
+                dtp_NgayMat.Enabled = false;
+            }
+        }
     }
 }
