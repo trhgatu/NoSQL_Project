@@ -30,11 +30,12 @@
         {
             header_Panel = new TableLayoutPanel();
             panel1 = new Panel();
-            dataGridView1 = new DataGridView();
             panel2 = new Panel();
+            dataGridView1 = new DataGridView();
             cb_FilterCriteria = new ComboBox();
             btn_XemCay = new Button();
             groupBox1 = new GroupBox();
+            checkBox1 = new CheckBox();
             lbl_QueQuan = new Label();
             txt_QueQuan = new TextBox();
             cb_MoiQuanHe = new ComboBox();
@@ -66,8 +67,8 @@
             txt_filterValue = new TextBox();
             cb_Loc = new ComboBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)box_Anh).BeginInit();
             tableLayoutPanel1.SuspendLayout();
@@ -80,34 +81,28 @@
             header_Panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             header_Panel.Dock = DockStyle.Top;
             header_Panel.Location = new Point(0, 0);
+            header_Panel.Margin = new Padding(4);
             header_Panel.Name = "header_Panel";
             header_Panel.RowCount = 1;
             header_Panel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            header_Panel.Size = new Size(1662, 80);
+            header_Panel.Size = new Size(1863, 77);
             header_Panel.TabIndex = 3;
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 80);
+            panel1.Location = new Point(0, 77);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1662, 923);
+            panel1.Size = new Size(1863, 885);
             panel1.TabIndex = 6;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(576, 102);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1050, 782);
-            dataGridView1.TabIndex = 1;
             // 
             // panel2
             // 
+            panel2.AutoScroll = true;
+            panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(cb_FilterCriteria);
             panel2.Controls.Add(btn_XemCay);
             panel2.Controls.Add(groupBox1);
@@ -117,31 +112,50 @@
             panel2.Controls.Add(txt_filterValue);
             panel2.Controls.Add(cb_Loc);
             panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1662, 923);
+            panel2.Size = new Size(2078, 1154);
             panel2.TabIndex = 0;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(706, 111);
+            dataGridView1.Margin = new Padding(4);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(1148, 761);
+            dataGridView1.TabIndex = 1;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.RowHeaderMouseClick += dataGridView1_RowHeaderMouseClick;
             // 
             // cb_FilterCriteria
             // 
             cb_FilterCriteria.FormattingEnabled = true;
-            cb_FilterCriteria.Location = new Point(1158, 31);
+            cb_FilterCriteria.Location = new Point(1288, 43);
+            cb_FilterCriteria.Margin = new Padding(4);
             cb_FilterCriteria.Name = "cb_FilterCriteria";
-            cb_FilterCriteria.Size = new Size(151, 28);
+            cb_FilterCriteria.Size = new Size(188, 33);
             cb_FilterCriteria.TabIndex = 7;
+            cb_FilterCriteria.SelectedIndexChanged += cb_FilterCriteria_SelectedIndexChanged;
             // 
             // btn_XemCay
             // 
-            btn_XemCay.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_XemCay.Location = new Point(576, 21);
+            btn_XemCay.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_XemCay.Location = new Point(685, 35);
+            btn_XemCay.Margin = new Padding(4);
             btn_XemCay.Name = "btn_XemCay";
-            btn_XemCay.Size = new Size(165, 49);
+            btn_XemCay.Size = new Size(229, 50);
             btn_XemCay.TabIndex = 3;
             btn_XemCay.Text = "Xem cây gia phả";
             btn_XemCay.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.BackColor = Color.BurlyWood;
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(lbl_QueQuan);
             groupBox1.Controls.Add(txt_QueQuan);
             groupBox1.Controls.Add(cb_MoiQuanHe);
@@ -166,85 +180,106 @@
             groupBox1.FlatStyle = FlatStyle.Flat;
             groupBox1.Font = new Font("Segoe UI", 18F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             groupBox1.ForeColor = SystemColors.ActiveCaptionText;
-            groupBox1.Location = new Point(30, 102);
+            groupBox1.Location = new Point(38, 113);
+            groupBox1.Margin = new Padding(4);
             groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new Padding(4);
             groupBox1.RightToLeft = RightToLeft.No;
-            groupBox1.Size = new Size(511, 782);
+            groupBox1.Size = new Size(639, 761);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thành viên";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(553, 322);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(22, 21);
+            checkBox1.TabIndex = 23;
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // lbl_QueQuan
             // 
             lbl_QueQuan.AutoSize = true;
             lbl_QueQuan.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_QueQuan.Location = new Point(35, 459);
+            lbl_QueQuan.Location = new Point(44, 493);
+            lbl_QueQuan.Margin = new Padding(4, 0, 4, 0);
             lbl_QueQuan.Name = "lbl_QueQuan";
-            lbl_QueQuan.Size = new Size(108, 28);
+            lbl_QueQuan.Size = new Size(132, 32);
             lbl_QueQuan.TabIndex = 22;
             lbl_QueQuan.Text = "Quê quán:";
             // 
             // txt_QueQuan
             // 
             txt_QueQuan.Font = new Font("Segoe UI", 11F);
-            txt_QueQuan.Location = new Point(177, 455);
+            txt_QueQuan.Location = new Point(221, 492);
+            txt_QueQuan.Margin = new Padding(4);
             txt_QueQuan.Name = "txt_QueQuan";
-            txt_QueQuan.Size = new Size(284, 32);
+            txt_QueQuan.Size = new Size(354, 37);
             txt_QueQuan.TabIndex = 21;
             // 
             // cb_MoiQuanHe
             // 
             cb_MoiQuanHe.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cb_MoiQuanHe.FormattingEnabled = true;
-            cb_MoiQuanHe.Location = new Point(177, 401);
+            cb_MoiQuanHe.Location = new Point(221, 435);
+            cb_MoiQuanHe.Margin = new Padding(4);
             cb_MoiQuanHe.Name = "cb_MoiQuanHe";
-            cb_MoiQuanHe.Size = new Size(284, 33);
+            cb_MoiQuanHe.Size = new Size(354, 38);
             cb_MoiQuanHe.TabIndex = 20;
             // 
             // lbl_MoiQuanHe
             // 
             lbl_MoiQuanHe.AutoSize = true;
             lbl_MoiQuanHe.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_MoiQuanHe.Location = new Point(35, 401);
+            lbl_MoiQuanHe.Location = new Point(44, 436);
+            lbl_MoiQuanHe.Margin = new Padding(4, 0, 4, 0);
             lbl_MoiQuanHe.Name = "lbl_MoiQuanHe";
-            lbl_MoiQuanHe.Size = new Size(136, 28);
+            lbl_MoiQuanHe.Size = new Size(165, 32);
             lbl_MoiQuanHe.TabIndex = 19;
             lbl_MoiQuanHe.Text = "Mối quan hệ:";
             // 
             // dtp_NgayMat
             // 
+            dtp_NgayMat.Enabled = false;
             dtp_NgayMat.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dtp_NgayMat.Format = DateTimePickerFormat.Custom;
-            dtp_NgayMat.Location = new Point(177, 293);
+            dtp_NgayMat.Location = new Point(221, 315);
+            dtp_NgayMat.Margin = new Padding(4);
             dtp_NgayMat.Name = "dtp_NgayMat";
-            dtp_NgayMat.Size = new Size(284, 34);
+            dtp_NgayMat.Size = new Size(310, 39);
             dtp_NgayMat.TabIndex = 18;
             // 
             // lbl_NgayMat
             // 
             lbl_NgayMat.AutoSize = true;
             lbl_NgayMat.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_NgayMat.Location = new Point(32, 298);
+            lbl_NgayMat.Location = new Point(44, 320);
+            lbl_NgayMat.Margin = new Padding(4, 0, 4, 0);
             lbl_NgayMat.Name = "lbl_NgayMat";
-            lbl_NgayMat.Size = new Size(110, 28);
+            lbl_NgayMat.Size = new Size(132, 32);
             lbl_NgayMat.TabIndex = 17;
             lbl_NgayMat.Text = "Ngày mất:";
             // 
             // txt_DiaChi
             // 
             txt_DiaChi.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_DiaChi.Location = new Point(177, 243);
+            txt_DiaChi.Location = new Point(221, 258);
+            txt_DiaChi.Margin = new Padding(4);
             txt_DiaChi.Name = "txt_DiaChi";
-            txt_DiaChi.Size = new Size(284, 31);
+            txt_DiaChi.Size = new Size(354, 36);
             txt_DiaChi.TabIndex = 16;
             // 
             // lbl_DiaChi
             // 
             lbl_DiaChi.AutoSize = true;
             lbl_DiaChi.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_DiaChi.Location = new Point(32, 243);
+            lbl_DiaChi.Location = new Point(44, 259);
+            lbl_DiaChi.Margin = new Padding(4, 0, 4, 0);
             lbl_DiaChi.Name = "lbl_DiaChi";
-            lbl_DiaChi.Size = new Size(83, 28);
+            lbl_DiaChi.Size = new Size(99, 32);
             lbl_DiaChi.TabIndex = 15;
             lbl_DiaChi.Text = "Địa chỉ:";
             // 
@@ -252,9 +287,10 @@
             // 
             lbl_GioiTinh.AutoSize = true;
             lbl_GioiTinh.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_GioiTinh.Location = new Point(32, 151);
+            lbl_GioiTinh.Location = new Point(40, 152);
+            lbl_GioiTinh.Margin = new Padding(4, 0, 4, 0);
             lbl_GioiTinh.Name = "lbl_GioiTinh";
-            lbl_GioiTinh.Size = new Size(100, 28);
+            lbl_GioiTinh.Size = new Size(119, 32);
             lbl_GioiTinh.TabIndex = 14;
             lbl_GioiTinh.Text = "Giới tính:";
             // 
@@ -262,9 +298,10 @@
             // 
             radio_Nu.AutoSize = true;
             radio_Nu.Font = new Font("Segoe UI", 10.8F);
-            radio_Nu.Location = new Point(264, 149);
+            radio_Nu.Location = new Point(322, 152);
+            radio_Nu.Margin = new Padding(4);
             radio_Nu.Name = "radio_Nu";
-            radio_Nu.Size = new Size(57, 29);
+            radio_Nu.Size = new Size(67, 34);
             radio_Nu.TabIndex = 13;
             radio_Nu.TabStop = true;
             radio_Nu.Text = "Nữ";
@@ -274,9 +311,10 @@
             // 
             radio_Nam.AutoSize = true;
             radio_Nam.Font = new Font("Segoe UI", 10.8F);
-            radio_Nam.Location = new Point(177, 149);
+            radio_Nam.Location = new Point(221, 152);
+            radio_Nam.Margin = new Padding(4);
             radio_Nam.Name = "radio_Nam";
-            radio_Nam.Size = new Size(71, 29);
+            radio_Nam.Size = new Size(84, 34);
             radio_Nam.TabIndex = 12;
             radio_Nam.TabStop = true;
             radio_Nam.Text = "Nam";
@@ -286,27 +324,30 @@
             // 
             cb_MoiQuanHeVoi.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cb_MoiQuanHeVoi.FormattingEnabled = true;
-            cb_MoiQuanHeVoi.Location = new Point(240, 346);
+            cb_MoiQuanHeVoi.Location = new Point(255, 377);
+            cb_MoiQuanHeVoi.Margin = new Padding(4);
             cb_MoiQuanHeVoi.Name = "cb_MoiQuanHeVoi";
-            cb_MoiQuanHeVoi.Size = new Size(221, 33);
+            cb_MoiQuanHeVoi.Size = new Size(320, 38);
             cb_MoiQuanHeVoi.TabIndex = 10;
             // 
             // lbl_MoiQuanHeVoi
             // 
             lbl_MoiQuanHeVoi.AutoSize = true;
             lbl_MoiQuanHeVoi.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_MoiQuanHeVoi.Location = new Point(32, 346);
+            lbl_MoiQuanHeVoi.Location = new Point(44, 378);
+            lbl_MoiQuanHeVoi.Margin = new Padding(4, 0, 4, 0);
             lbl_MoiQuanHeVoi.Name = "lbl_MoiQuanHeVoi";
-            lbl_MoiQuanHeVoi.Size = new Size(172, 28);
+            lbl_MoiQuanHeVoi.Size = new Size(207, 32);
             lbl_MoiQuanHeVoi.TabIndex = 9;
             lbl_MoiQuanHeVoi.Text = "Mối quan hệ với:";
             // 
             // btn_ChonAnh
             // 
             btn_ChonAnh.Font = new Font("Segoe UI", 12F);
-            btn_ChonAnh.Location = new Point(32, 521);
+            btn_ChonAnh.Location = new Point(44, 694);
+            btn_ChonAnh.Margin = new Padding(4);
             btn_ChonAnh.Name = "btn_ChonAnh";
-            btn_ChonAnh.Size = new Size(162, 47);
+            btn_ChonAnh.Size = new Size(202, 59);
             btn_ChonAnh.TabIndex = 7;
             btn_ChonAnh.Text = "Chọn ảnh ...";
             btn_ChonAnh.UseVisualStyleBackColor = true;
@@ -316,9 +357,10 @@
             // 
             box_Anh.BackColor = Color.White;
             box_Anh.BorderStyle = BorderStyle.FixedSingle;
-            box_Anh.Location = new Point(32, 574);
+            box_Anh.Location = new Point(337, 548);
+            box_Anh.Margin = new Padding(4);
             box_Anh.Name = "box_Anh";
-            box_Anh.Size = new Size(162, 179);
+            box_Anh.Size = new Size(238, 205);
             box_Anh.SizeMode = PictureBoxSizeMode.StretchImage;
             box_Anh.TabIndex = 6;
             box_Anh.TabStop = false;
@@ -327,28 +369,32 @@
             // 
             lbl_NgaySinh.AutoSize = true;
             lbl_NgaySinh.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_NgaySinh.Location = new Point(32, 104);
+            lbl_NgaySinh.Location = new Point(44, 105);
+            lbl_NgaySinh.Margin = new Padding(4, 0, 4, 0);
             lbl_NgaySinh.Name = "lbl_NgaySinh";
-            lbl_NgaySinh.Size = new Size(112, 28);
+            lbl_NgaySinh.Size = new Size(135, 32);
             lbl_NgaySinh.TabIndex = 5;
             lbl_NgaySinh.Text = "Ngày sinh:";
             // 
             // dtp_NgaySinh
             // 
+            dtp_NgaySinh.CustomFormat = "";
             dtp_NgaySinh.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dtp_NgaySinh.Format = DateTimePickerFormat.Custom;
-            dtp_NgaySinh.Location = new Point(177, 99);
+            dtp_NgaySinh.Location = new Point(221, 105);
+            dtp_NgaySinh.Margin = new Padding(4);
             dtp_NgaySinh.Name = "dtp_NgaySinh";
-            dtp_NgaySinh.Size = new Size(284, 34);
+            dtp_NgaySinh.Size = new Size(354, 39);
             dtp_NgaySinh.TabIndex = 4;
             // 
             // lbl_NgheNghiep
             // 
             lbl_NgheNghiep.AutoSize = true;
             lbl_NgheNghiep.Font = new Font("Segoe UI", 11.8F, FontStyle.Bold);
-            lbl_NgheNghiep.Location = new Point(32, 199);
+            lbl_NgheNghiep.Location = new Point(45, 205);
+            lbl_NgheNghiep.Margin = new Padding(4, 0, 4, 0);
             lbl_NgheNghiep.Name = "lbl_NgheNghiep";
-            lbl_NgheNghiep.Size = new Size(139, 28);
+            lbl_NgheNghiep.Size = new Size(168, 32);
             lbl_NgheNghiep.TabIndex = 3;
             lbl_NgheNghiep.Text = "Nghề nghiệp:";
             // 
@@ -356,35 +402,39 @@
             // 
             lbl_Ten.AutoSize = true;
             lbl_Ten.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lbl_Ten.Location = new Point(35, 52);
+            lbl_Ten.Location = new Point(44, 54);
+            lbl_Ten.Margin = new Padding(4, 0, 4, 0);
             lbl_Ten.Name = "lbl_Ten";
-            lbl_Ten.Size = new Size(48, 25);
+            lbl_Ten.Size = new Size(55, 30);
             lbl_Ten.TabIndex = 2;
             lbl_Ten.Text = "Tên:";
             // 
             // txt_NgheNghiep
             // 
             txt_NgheNghiep.Font = new Font("Segoe UI", 11F);
-            txt_NgheNghiep.Location = new Point(177, 195);
+            txt_NgheNghiep.Location = new Point(221, 204);
+            txt_NgheNghiep.Margin = new Padding(4);
             txt_NgheNghiep.Name = "txt_NgheNghiep";
-            txt_NgheNghiep.Size = new Size(284, 32);
+            txt_NgheNghiep.Size = new Size(354, 37);
             txt_NgheNghiep.TabIndex = 1;
             // 
             // txt_Ten
             // 
             txt_Ten.Font = new Font("Segoe UI", 12F);
-            txt_Ten.Location = new Point(177, 46);
+            txt_Ten.Location = new Point(221, 45);
+            txt_Ten.Margin = new Padding(4);
             txt_Ten.Name = "txt_Ten";
-            txt_Ten.Size = new Size(284, 34);
+            txt_Ten.Size = new Size(354, 39);
             txt_Ten.TabIndex = 0;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(836, 34);
+            label6.Location = new Point(920, 42);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(87, 31);
+            label6.Size = new Size(106, 38);
             label6.TabIndex = 5;
             label6.Text = "Bộ lọc:";
             // 
@@ -399,19 +449,21 @@
             tableLayoutPanel1.Controls.Add(btn_Them, 3, 0);
             tableLayoutPanel1.Controls.Add(btn_Luu, 2, 0);
             tableLayoutPanel1.Controls.Add(btn_ChiTiet, 1, 0);
-            tableLayoutPanel1.Location = new Point(30, 18);
+            tableLayoutPanel1.Location = new Point(38, 22);
+            tableLayoutPanel1.Margin = new Padding(4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(511, 55);
+            tableLayoutPanel1.Size = new Size(639, 69);
             tableLayoutPanel1.TabIndex = 4;
             // 
             // btn_Xoa
             // 
-            btn_Xoa.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_Xoa.Location = new Point(3, 3);
+            btn_Xoa.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Xoa.Location = new Point(4, 4);
+            btn_Xoa.Margin = new Padding(4);
             btn_Xoa.Name = "btn_Xoa";
-            btn_Xoa.Size = new Size(98, 49);
+            btn_Xoa.Size = new Size(122, 61);
             btn_Xoa.TabIndex = 1;
             btn_Xoa.Text = "Xóa";
             btn_Xoa.UseVisualStyleBackColor = true;
@@ -420,9 +472,10 @@
             // btn_Them
             // 
             btn_Them.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Them.Location = new Point(384, 3);
+            btn_Them.Location = new Point(481, 4);
+            btn_Them.Margin = new Padding(4);
             btn_Them.Name = "btn_Them";
-            btn_Them.Size = new Size(124, 47);
+            btn_Them.Size = new Size(138, 59);
             btn_Them.TabIndex = 11;
             btn_Them.Text = "Thêm";
             btn_Them.UseVisualStyleBackColor = true;
@@ -430,20 +483,23 @@
             // 
             // btn_Luu
             // 
-            btn_Luu.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_Luu.Location = new Point(257, 3);
+            btn_Luu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Luu.Location = new Point(322, 4);
+            btn_Luu.Margin = new Padding(4);
             btn_Luu.Name = "btn_Luu";
-            btn_Luu.Size = new Size(95, 49);
+            btn_Luu.Size = new Size(119, 61);
             btn_Luu.TabIndex = 0;
             btn_Luu.Text = "Lưu";
             btn_Luu.UseVisualStyleBackColor = true;
+            btn_Luu.Click += btn_Luu_Click;
             // 
             // btn_ChiTiet
             // 
-            btn_ChiTiet.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_ChiTiet.Location = new Point(130, 3);
+            btn_ChiTiet.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_ChiTiet.Location = new Point(163, 4);
+            btn_ChiTiet.Margin = new Padding(4);
             btn_ChiTiet.Name = "btn_ChiTiet";
-            btn_ChiTiet.Size = new Size(97, 49);
+            btn_ChiTiet.Size = new Size(121, 61);
             btn_ChiTiet.TabIndex = 2;
             btn_ChiTiet.Text = "Chi tiết";
             btn_ChiTiet.UseVisualStyleBackColor = true;
@@ -451,9 +507,10 @@
             // 
             // btn_TimKiem
             // 
-            btn_TimKiem.Location = new Point(1530, 30);
+            btn_TimKiem.Location = new Point(1736, 32);
+            btn_TimKiem.Margin = new Padding(4);
             btn_TimKiem.Name = "btn_TimKiem";
-            btn_TimKiem.Size = new Size(94, 43);
+            btn_TimKiem.Size = new Size(118, 53);
             btn_TimKiem.TabIndex = 2;
             btn_TimKiem.Text = "Tìm kiếm";
             btn_TimKiem.UseVisualStyleBackColor = true;
@@ -462,36 +519,40 @@
             // txt_filterValue
             // 
             txt_filterValue.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_filterValue.Location = new Point(1315, 29);
+            txt_filterValue.Location = new Point(1484, 32);
+            txt_filterValue.Margin = new Padding(4);
             txt_filterValue.Multiline = true;
             txt_filterValue.Name = "txt_filterValue";
-            txt_filterValue.Size = new Size(196, 43);
+            txt_filterValue.Size = new Size(244, 53);
             txt_filterValue.TabIndex = 1;
             // 
             // cb_Loc
             // 
             cb_Loc.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cb_Loc.FormattingEnabled = true;
-            cb_Loc.Location = new Point(947, 31);
+            cb_Loc.Location = new Point(1034, 36);
+            cb_Loc.Margin = new Padding(4);
             cb_Loc.Name = "cb_Loc";
-            cb_Loc.Size = new Size(151, 39);
+            cb_Loc.Size = new Size(231, 46);
             cb_Loc.TabIndex = 0;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             BackColor = Color.White;
-            ClientSize = new Size(1662, 1003);
+            ClientSize = new Size(1863, 962);
             Controls.Add(panel1);
             Controls.Add(header_Panel);
+            Margin = new Padding(4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)box_Anh).EndInit();
@@ -537,5 +598,6 @@
         private Label lbl_QueQuan;
         private TextBox txt_QueQuan;
         private ComboBox cb_FilterCriteria;
+        private CheckBox checkBox1;
     }
 }
