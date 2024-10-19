@@ -259,7 +259,7 @@ namespace NoSQL_Project
             string occupation = txt_NgheNghiep.Text;
             string hometown = txt_QueQuan.Text;
             string address = txt_DiaChi.Text;
-
+            string selectedRelationship = cb_MoiQuanHe.SelectedValue?.ToString();
             if (string.IsNullOrEmpty(_imagePath))
             {
                 MessageBox.Show("Chưa chọn ảnh.");
@@ -312,7 +312,6 @@ namespace NoSQL_Project
                     await session.RunAsync(query, parameters);
                     MessageBox.Show("Thêm cá nhân thành công!");
 
-                    string selectedRelationship = cb_MoiQuanHe.SelectedItem?.ToString();
                     string relatedPersonName = cb_MoiQuanHeVoi.SelectedItem?.ToString();
 
                     if (!string.IsNullOrEmpty(selectedRelationship) && !string.IsNullOrEmpty(relatedPersonName))
@@ -507,17 +506,19 @@ namespace NoSQL_Project
 
         private void LoadRelationshipTypes()
         {
-            var relationshipTypes = new List<string>
-            {
-                "PARENT_OF",
-                "SPOUSE_OF",
-                "SIBLING_OF",
-                "GRANDPARENT_OF",
-                "UNCLE_AUNT_OF",
-                "COUSIN_OF"
-            };
+            var relationshipTypes = new Dictionary<string, string>
+                {
+                    { "Cha/Mẹ", "PARENT_OF" },
+                    { "Vợ/Chồng", "SPOUSE_OF" },
+                    { "Anh/Chị/Em", "SIBLING_OF" },
+                    { "Ông/Bà", "GRANDPARENT_OF" },
+                    { "Chú/Bác/Cô/Dì", "UNCLE_AUNT_OF" },
+                    { "Anh/Chị/Em Họ", "COUSIN_OF" }
+                };
 
-            cb_MoiQuanHe.DataSource = relationshipTypes;
+            cb_MoiQuanHe.DataSource = new BindingSource(relationshipTypes, null);
+            cb_MoiQuanHe.DisplayMember = "Key";
+            cb_MoiQuanHe.ValueMember = "Value";
         }
 
         private async void btn_ChiTiet_Click(object sender, EventArgs e)
@@ -720,7 +721,7 @@ namespace NoSQL_Project
                         if (updateRecords.Count > 0)
                         {
                             var updatedId = updateRecords[0]["Id"];
-                            MessageBox.Show($"Cập nhật thành công {updatedId}"+1);
+                            MessageBox.Show($"Cập nhật thành công {updatedId}" + 1);
                         }
                         else
                         {
@@ -748,6 +749,12 @@ namespace NoSQL_Project
             {
                 dtp_NgayMat.Enabled = false;
             }
+        }
+
+        private void btn_XemCay_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.ShowDialog();
         }
     }
 }
