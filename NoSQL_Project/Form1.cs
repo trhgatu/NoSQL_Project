@@ -642,8 +642,10 @@ namespace NoSQL_Project
             txt_DiaChi.Text = rowData.Cells[8].Value?.ToString() ?? string.Empty;
         }
 
+        [Obsolete]
         private async void btn_Luu_Click(object sender, EventArgs e)
         {
+            // Lấy giá trị từ form
             string name = txt_Ten.Text;
             string birthDate = dtp_NgaySinh.Value.ToString("yyyy-MM-dd");
             string deathDate = dtp_NgayMat.Value.Date == DateTimePicker.MinimumDateTime.Date ? null : dtp_NgayMat.Value.ToString("yyyy-MM-dd");
@@ -651,50 +653,88 @@ namespace NoSQL_Project
             string occupation = txt_NgheNghiep.Text;
             string hometown = txt_QueQuan.Text;
             string address = txt_DiaChi.Text;
+
+            // Kiểm tra giá trị ID
+            if (string.IsNullOrEmpty(_id))
+            {
+                MessageBox.Show("Không có ID hợp lệ để cập nhật.");
+                return;
+            }
+
+            // Giả sử _id là số, chúng ta ép kiểu từ chuỗi sang số (nếu cần)
+            if (!int.TryParse(_id, out int personId))
+            {
+                MessageBox.Show("ID không hợp lệ. Hãy kiểm tra lại.");
+                return;
+            }
+
+            MessageBox.Show($"ID hiện tại là: {personId}");
+
             try
             {
-                Task<DialogResult> person = SavePerson(_id, hometown, occupation, address, gender, name, deathDate, birthDate);
-                MessageBox.Show($"Lưu thành công! ID: {_id}");
+                await using (var session = _driver.AsyncSession())
+                {
+                    // Kiểm tra sự tồn tại của nút có ID trước khi cập nhật
+                    var checkQuery = @"
+                        MATCH (p:Person {id: $id})
+                        RETURN p LIMIT 1";
+                    var checkParameters = new { id = personId };
+                    var checkResult = await session.RunAsync(checkQuery, checkParameters);
+                    var checkRecords = await checkResult.ToListAsync();
+
+                    if (checkRecords.Count == 0)
+                    {
+                        MessageBox.Show("Không tìm thấy người nào có ID này.");
+                        return;
+                    }
+
+                    // Cập nhật thông tin trong transaction nếu nút tồn tại
+                    await session.WriteTransactionAsync(async tx =>
+                    {
+                        var updateQuery = @"
+         MATCH (p:Person {id: $id})
+         SET p.hometown = $hometown, 
+             p.occupation = $occupation, 
+             p.address = $address, 
+             p.gender = $gender, 
+             p.name = $name, 
+             p.deathDate = $deathDate, 
+             p.birthDate = $birthDate
+         RETURN id(p) AS Id";
+
+                        var updateParameters = new
+                        {
+                            id = personId,  // Sử dụng personId là số
+                            hometown,
+                            occupation,
+                            address,
+                            gender,
+                            name,
+                            deathDate = string.IsNullOrEmpty(deathDate) ? null : deathDate,
+                            birthDate
+                        };
+
+                        var updateResult = await tx.RunAsync(updateQuery, updateParameters);
+                        var updateRecords = await updateResult.ToListAsync();
+
+                        if (updateRecords.Count > 0)
+                        {
+                            var updatedId = updateRecords[0]["Id"];
+                            MessageBox.Show($"Cập nhật thành công {updatedId}"+1);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không tìm thấy người nào để cập nhật.");
+                        }
+                    });
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Có lỗi xảy ra: {ex.Message}");
             }
-            //try
-            //{
-            //    await using (var session = _driver.AsyncSession())
-            //    {
-            //        // Cập nhật thông tin
-            //        var query = @"
-            //    MATCH (p:Person {id: $id})
-            //    SET p.hometown = $hometown, 
-            //        p.occupation = $occupation, 
-            //        p.address = $address, 
-            //        p.gender = $gender, 
-            //        p.name = $name, 
-            //        p.deathDate = $deathDate, 
-            //        p.birthDate = $birthDate 
-            //    RETURN id(p) AS Id";
 
-            //        var parameters = new
-            //        {
-            //            id = _id,
-            //            hometown,
-            //            occupation,
-            //            address,
-            //            gender,
-            //            name,
-            //            deathDate,
-            //            birthDate
-            //        };
-            //        await session.RunAsync(query, parameters);
-            //        MessageBox.Show("Cập nhật thành công.");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Có lỗi xảy ra: {ex.Message}");
-            //}
+            // Tải lại dữ liệu sau khi cập nhật
             await LoadDataAsync();
         }
 
