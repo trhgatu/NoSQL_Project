@@ -36,6 +36,11 @@ namespace NoSQL_Project
                 box_Anh.Image = null; // Nếu không có hình ảnh, đặt là null
             }
         }
+
+        private void FormDetails_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

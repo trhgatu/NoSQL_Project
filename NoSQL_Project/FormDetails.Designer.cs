@@ -125,6 +125,7 @@
             Controls.Add(lbl_Ten);
             Name = "FormDetails";
             Text = "FormDetails";
+            Load += FormDetails_Load;
             ((System.ComponentModel.ISupportInitialize)box_Anh).EndInit();
             ResumeLayout(false);
             PerformLayout();

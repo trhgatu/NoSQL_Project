@@ -187,7 +187,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.Location = new Point(442, 258);
-            checkBox1.Margin = new Padding(2, 2, 2, 2);
+            checkBox1.Margin = new Padding(2);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(18, 17);
             checkBox1.TabIndex = 23;
@@ -512,6 +512,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

@@ -753,8 +753,23 @@ namespace NoSQL_Project
 
         private void btn_XemCay_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
-            form2.ShowDialog();
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var selectedRow = dataGridView1.SelectedRows[0];
+                int selectedId = Convert.ToInt32(selectedRow.Cells["Id"].Value); // Lấy Id cá nhân đã chọn
+
+                Form2 form2 = new Form2(selectedId);
+                form2.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một dòng để xem cây.");
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
