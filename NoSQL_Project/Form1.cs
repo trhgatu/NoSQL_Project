@@ -339,6 +339,7 @@ namespace NoSQL_Project
                     }
 
                     await LoadDataAsync();
+                    await LoadPersonsToComboBoxAsync();
                 }
                 catch (Exception ex)
                 {
@@ -750,21 +751,14 @@ namespace NoSQL_Project
                 dtp_NgayMat.Enabled = false;
             }
         }
-
+            
         private void btn_XemCay_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                var selectedRow = dataGridView1.SelectedRows[0];
-                int selectedId = Convert.ToInt32(selectedRow.Cells["Id"].Value); // Lấy Id cá nhân đã chọn
+           
 
-                Form2 form2 = new Form2(selectedId);
-                form2.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một dòng để xem cây.");
-            }
+                Form3 form3 = new Form3();
+                form3.ShowDialog();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)

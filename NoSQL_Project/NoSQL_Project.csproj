@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GraphSharp" Version="1.1.0" />
     <PackageReference Include="Neo4j.Driver" Version="5.25.0" />
+    <PackageReference Include="Neo4jClient" Version="5.1.17" />
   </ItemGroup>
 
   <ItemGroup>
